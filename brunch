@@ -1,19 +1,19 @@
 #!/bin/bash
 
 function usage (){
-cat << :]
-Reset the given branch to match remote master.
-
-Usage:
-  `basename $0` [BRANCH]
-
-:]
+cat <<- :]
+	Reset the given branch to match remote master.
+	
+	Usage:
+	  `basename $0` [BRANCH]
+	
+	:]
 }
 
 BRANCH=${1-`git branch | sed -n 's/^* //p'`}
 
-[ "$BRANCH" == "master" ] || [ "$BRANCH" == "" ] && {
-  echo "You'll need to break master personally nor will I do blanks." >&2
+[ "$BRANCH" == "master" ] || [ "$BRANCH" == "" ] || [ "${BRANCH:0:1}" == '-' ] && {
+  echo -e "WARN:  You'll need to break master personally nor will I do blanks.\n" >&2
   usage
   exit 1
 }
@@ -23,5 +23,5 @@ echo "[ENTER] to delete $BRANCH locally or [CTRL-C]"; read
 git branch -D $BRANCH
 echo "[ENTER] to delete $BRANCH remotely or [CTRL-C]"; read #Turn into an option
 git push origin :$BRANCH
-git checkout -b $BRANCH && git stash -u && git pull origin master && git push origin $BRANCH
-#git checkout -b $BRANCH && git reset --hard origin/master && git pull origin master && git push origin $BRANCH
+echo "[ENTER] to checkout $BRANCH and rebase or [CTRL-C]"; read #Turn into an option
+git checkout -b $BRANCH && git rebase origin/master
