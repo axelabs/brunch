@@ -23,13 +23,14 @@ echo Buffering to: $OUTBUF
 }
 
 git checkout master || exit 1
-echo -n "[ENTER] to delete $BRANCH locally or [CTRL-C]"; read
+echo -n "[ENTER] to delete '$BRANCH' locally or [CTRL-C]"; read
 git branch -D $BRANCH
-echo -n "[ENTER] to delete $BRANCH remotely or [CTRL-C]"; read 
+echo -n "[ENTER] to delete '$BRANCH' remotely or [CTRL-C]"; read 
 git push origin :$BRANCH
-echo -n "[ENTER] to checkout $BRANCH and rebase or [CTRL-C]"; read
+echo -n "[ENTER] to checkout '$BRANCH' and rebase or [CTRL-C]"; read
 git checkout -b $BRANCH && git branch --set-upstream-to=origin/master && git pull && \
   git push origin $BRANCH && git branch --set-upstream-to=origin/$BRANCH
 
 # TODO
 # 1. Turn the reads confirmantions into options
+# 2. Test all possible exceptions
