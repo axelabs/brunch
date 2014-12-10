@@ -15,7 +15,6 @@ OUTBUF=brunch.$$
 [ -f /dev/shm ] && export OUTBUF=/dev/shm/$OUTBUF || export OUTBUF=/tmp/$OUTBUF
 
 echo Buffering to: $OUTBUF
-exit 1
 
 [ "$BRANCH" == "master" ] || [ "$BRANCH" == "" ] || [ "${BRANCH:0:1}" == '-' ] && {
   echo -e "WARN:  You'll need to break master personally nor will I do blanks.\n" >&2
@@ -29,4 +28,6 @@ git branch -D $BRANCH
 echo "[ENTER] to delete $BRANCH remotely or [CTRL-C]"; read #Turn into an option
 git push origin :$BRANCH
 echo "[ENTER] to checkout $BRANCH and rebase or [CTRL-C]"; read #Turn into an option
-git checkout -b $BRANCH && git rebase origin/master && git pull origin master
+#git checkout -b $BRANCH && git rebase origin/master && git pull origin master
+git checkout -b $BRANCH && git branch --set-upstream-to=origin/master && git pull && \
+  git push origin $BRANCH && git branch --set-upstream-to=origin/$BRANCH
