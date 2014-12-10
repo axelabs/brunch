@@ -29,4 +29,4 @@ git branch -D $BRANCH
 echo "[ENTER] to delete $BRANCH remotely or [CTRL-C]"; read #Turn into an option
 git push origin :$BRANCH
 echo "[ENTER] to checkout $BRANCH and rebase or [CTRL-C]"; read #Turn into an option
-git checkout -b $BRANCH && git rebase origin/master && git pull
+git checkout -b $BRANCH && git rebase origin/master && git pull origin master
