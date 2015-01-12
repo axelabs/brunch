@@ -23,15 +23,11 @@ echo Buffering to: $OUTBUF
 }
 
 git checkout master || exit 1
-echo -n "[ENTER] to delete '$BRANCH' locally or [CTRL-C]"; read
-git branch -D $BRANCH
-echo -n "[ENTER] to delete '$BRANCH' remotely or [CTRL-C]"; read 
-git push origin :$BRANCH
-echo -n "[ENTER] to checkout '$BRANCH' and pull from origin/master or [CTRL-C]"; read
-git checkout -b $BRANCH && git branch --set-upstream-to=origin/master && git pull
-echo -n "[ENTER] to create '$BRANCH' remotely and track it or [CTRL-C]"; read
-git push origin $BRANCH && git branch --set-upstream-to=origin/$BRANCH
-
-# TODO
-# 1. Turn the reads confirmantions into options
-# 2. Test all possible exceptions
+echo -n "[ENTER] to delete '$BRANCH' locally or 'skip': "; read SKIP
+[ "$SKIP" != "skip" ] && git branch -D $BRANCH
+echo -n "[ENTER] to delete '$BRANCH' remotely or 'skip': "; read  SKIP
+[ "$SKIP" != "skip" ] && git push origin :$BRANCH
+echo -n "[ENTER] to checkout '$BRANCH' and pull from origin/master or 'skip': "; read SKIP
+[ "$SKIP" != "skip" ] && git checkout -b $BRANCH && git branch --set-upstream-to=origin/master && git pull
+echo -n "[ENTER] to create '$BRANCH' remotely and track it or 'skip': "; read SKIP
+[ "$SKIP" != "skip" ] && git push origin $BRANCH && git branch --set-upstream-to=origin/$BRANCH
