@@ -12,7 +12,7 @@ cat <<- :]
 
 BRANCH=${1-`git branch | sed -n 's/^* //p'`}
 OUTBUF=brunch.$$
-[ -f /dev/shm ] && export OUTBUF=/dev/shm/$OUTBUF || export OUTBUF=/tmp/$OUTBUF
+[ -d /dev/shm ] && export OUTBUF=/dev/shm/$OUTBUF || export OUTBUF=/tmp/$OUTBUF
 
 echo Buffering to: $OUTBUF
 
